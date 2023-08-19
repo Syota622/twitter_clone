@@ -6,6 +6,8 @@ docker-compose build --no-cache & docker compose build
 docker compose run --rm web bin/setup
 docker compose run --rm web yarn install
 docker compose up -d
+docker compose run --rm web bundle exec rubocop -A
+docker compose run --rm web bin/htmlbeautifier
 
 ### 💻 サインアップ、ログイン機能実装 ###
 
@@ -38,3 +40,8 @@ docker compose run --rm web rails db:drop db:create db:migrate
 
 # サインイン後のリダイレクト先を変更
 docker-compose run --rm web rails g controller home index
+
+# gem "slim-rails" "html2slim" 
+docker-compose run --rm web bundle install
+docker-compose build
+docker-compose run --rm web bundle exec erb2slim app/views/ --delete
