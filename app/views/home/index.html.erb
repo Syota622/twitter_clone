@@ -9,10 +9,11 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
   <body>
-    <%= render "home/navbar" %>
-    <% flash.each do |key, value| %>
-      <%= content_tag :div, value, class: "flash #{key}" %>
-    <% end %>
-    <%= yield %>
+    <div class="container mt-5">
+      <% if user_signed_in? %>
+        <p class="h4">こんにちは、<%= current_user.email %>さん！</p>
+        <%= button_to "つぶやく", "#", method: :get, class: 'btn btn-primary' %>
+      <% end %>
+    </div>
   </body>
 </html>

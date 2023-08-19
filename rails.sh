@@ -35,3 +35,6 @@ docker compose run --rm web rails db:rollback
 
 # データベースのリセット
 docker compose run --rm web rails db:drop db:create db:migrate
+
+# サインイン後のリダイレクト先を変更
+docker-compose run --rm web rails g controller home index
