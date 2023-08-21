@@ -5,6 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.2.1'
 
+# deviseライブラリを使うために必要なgem
 gem 'devise'
 gem 'letter_opener_web'
 gem 'omniauth'
@@ -57,7 +58,10 @@ gem 'bootsnap', require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
+# erbからslimに変換するためのgem
 gem 'slim-rails'
+# エラーログを日本語化するためのgem
+gem 'rails-i18n'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
