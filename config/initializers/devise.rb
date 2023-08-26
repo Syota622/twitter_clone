@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
-
 Devise.setup do |config|
-
   config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
-
 
   require 'devise/orm/active_record'
 
@@ -34,5 +31,4 @@ Devise.setup do |config|
   config.responder.redirect_status = :see_other
 
   config.omniauth :github, 'b4f00ba0ec4fe62c2664', '055d6ff9725b97521800373f4fbbdfe5a60bc016', scope: 'user,public_repo'
-
 end

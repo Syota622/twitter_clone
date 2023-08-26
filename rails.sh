@@ -7,7 +7,6 @@ docker compose run --rm web bin/setup
 docker compose run --rm web yarn install
 docker compose up -d
 docker compose run --rm web bundle exec rubocop -A
-docker compose run --rm web bin/htmlbeautifier
 
 ### 共通 ###
 
