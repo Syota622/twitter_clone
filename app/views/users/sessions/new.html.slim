@@ -14,4 +14,6 @@
         = f.label :remember_me, class: "form-check-label"
     .actions.mt-4
       = f.submit "Log in", class: "btn btn-primary btn-block"
-  = render "users/shared/links"
+  .text-center.mt-4
+    = link_to "Sign in with GitHub", user_github_omniauth_authorize_path, class: "btn btn-secondary"
+  / = render "users/shared/links"

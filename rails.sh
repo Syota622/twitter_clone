@@ -9,11 +9,16 @@ docker compose up -d
 docker compose run --rm web bundle exec rubocop -A
 docker compose run --rm web bin/htmlbeautifier
 
-### 💻 サインアップ、ログイン機能実装 ###
+### 共通 ###
 
 # Docker ビルド
 docker-compose run --rm web bundle install
 docker-compose build
+
+# DB接続
+docker-compose exec db psql -U postgres -d myapp_development
+
+### 💻 サインアップ、ログイン機能実装 ###
 
 # devise インストール
 docker-compose run --rm web rails g devise:install
@@ -29,9 +34,6 @@ docker-compose run --rm web rails g devise:views users
 # Calling `DidYouMean::SPELL_CHECKERS.merge!(error_name => spell_checker)' has been deprecated. Please call `DidYouMean.correct_error(error_name, spell_checker)' instead
 bundle update --bundler
 
-# データベースコンテナのDBへ接続する
-docker-compose exec db psql -U postgres -d myapp_development
-
 # ロールバック
 docker compose run --rm web rails db:rollback
 
@@ -45,3 +47,7 @@ docker-compose run --rm web rails g controller home index
 docker-compose run --rm web bundle install
 docker-compose build
 docker-compose run --rm web bundle exec erb2slim app/views/ --delete
+
+### 💻 githubログインの実装 ###
+docker-compose run --rm web rails generate migration AddOmniauthToUsers provider:string uid:string
+docker-compose run --rm web rails db:migrate

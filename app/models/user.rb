@@ -3,11 +3,19 @@
 class User < ApplicationRecord
   # userモデルでdeviseのすべてのmoduleを有効にする
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :confirmable, :lockable,
-         :timeoutable, :trackable, :omniauthable
+         :timeoutable, :trackable, :omniauthable, omniauth_providers: %i[github]
 
   validates :email, presence: true
   validates :phone_number, presence: true
   validates :birthdate, presence: true
+
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.email = auth.info.email
+      user.password = Devise.friendly_token[0, 20]
+    end
+  end
+
 end
 
 # ### userモデルでdeviseのすべてのmoduleを有効にする

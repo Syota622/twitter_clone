@@ -9,6 +9,7 @@ ruby '3.2.1'
 gem 'devise'
 gem 'letter_opener_web'
 gem 'omniauth'
+gem 'omniauth-github'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.0.0'
