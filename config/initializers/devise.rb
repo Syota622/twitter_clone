@@ -30,5 +30,7 @@ Devise.setup do |config|
   config.responder.error_status = :unprocessable_entity
   config.responder.redirect_status = :see_other
 
+  OmniAuth.config.allowed_request_methods = %i[get post]
+
   config.omniauth :github, 'b4f00ba0ec4fe62c2664', '055d6ff9725b97521800373f4fbbdfe5a60bc016', scope: 'user,public_repo'
 end

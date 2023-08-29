@@ -5,15 +5,24 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :confirmable, :lockable,
          :timeoutable, :trackable, :omniauthable, omniauth_providers: %i[github]
 
+  # バリデーション
   validates :email, presence: true
-  validates :phone_number, presence: true
-  validates :birthdate, presence: true
+  validates :phone_number, presence: true, unless: :omniauth_user?
+  validates :birthdate, presence: true, unless: :omniauth_user?
 
+  # Omniauth認証時の処理
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.password = Devise.friendly_token[0, 20]
+      user.phone_number = 'N/A' # デフォルト値
+      user.birthdate = '2000-01-01' # デフォルト値
     end
+  end
+
+  # Omniauthで認証されたユーザーかどうかを判定
+  def omniauth_user?
+    provider.present? && uid.present?
   end
 end
 
