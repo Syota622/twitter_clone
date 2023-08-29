@@ -32,5 +32,9 @@ Devise.setup do |config|
 
   OmniAuth.config.allowed_request_methods = %i[get post]
 
-  config.omniauth :github, 'b4f00ba0ec4fe62c2664', '055d6ff9725b97521800373f4fbbdfe5a60bc016', scope: 'user,public_repo'
+  if Rails.env.production?
+    config.omniauth :github, 'a312ada3100765a4369f', '261a493567e2238e9e7bd53baaa3befeb7e7ec9f', scope: 'user,public_repo'
+  else
+    config.omniauth :github, 'b4f00ba0ec4fe62c2664', '055d6ff9725b97521800373f4fbbdfe5a60bc016', scope: 'user,public_repo'
+  end
 end
