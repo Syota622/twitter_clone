@@ -12,16 +12,13 @@ class User < ApplicationRecord
 
   # Omniauth認証時の処理
   def self.from_omniauth(auth)
-    Rails.logger.debug "from_omniauth being called"
     where(provider: auth.provider, uid: auth.uid).first_or_initialize do |user|
-      Rails.logger.debug "User found or initialized"
       user.email = auth.info.email
       user.password = Devise.friendly_token[0, 20]
-      user.phone_number = 'N/A' 
+      user.phone_number = 'N/A'
       user.birthdate = '2000-01-01'
       user.confirmed_at = Time.now.utc
       user.save!
-      Rails.logger.debug "User should be saved"
     end
   end
 
