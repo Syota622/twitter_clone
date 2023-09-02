@@ -27,6 +27,9 @@ heroku open
 ## Herokuのログを表示する
 heroku logs
 
+## Herokuのアプリケーションにログインする
+heroku run bash
+
 ## Rails コンソール
 heroku run rails console
 
@@ -43,3 +46,6 @@ heroku git:clone -a powerful-mesa-07530
 
 ## Herokuのデータベースに接続する方法
 heroku pg:psql -a powerful-mesa-07530
+
+## Herokuに環境変数を設定する
+heroku config:set RAILS_MASTER_KEY=〜〜〜
