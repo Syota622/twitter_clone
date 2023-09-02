@@ -17,7 +17,7 @@ class User < ApplicationRecord
       user.password = Devise.friendly_token[0, 20]
       user.phone_number = 'N/A'
       user.birthdate = '2000-01-01'
-      user.confirmed_at = Time.now.utc
+      user.skip_confirmation!
       user.save!
     end
   end
