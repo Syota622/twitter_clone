@@ -50,3 +50,22 @@ docker-compose run --rm web bundle exec erb2slim app/views/ --delete
 ### 💻 githubログインの実装 ###
 docker-compose run --rm web rails generate migration AddOmniauthToUsers provider:string uid:string
 docker-compose run --rm web rails db:migrate
+
+### 💻 トップページの作成 ###
+docker-compose run --rm web rails generate model Tweet content:text user:references
+docker-compose run --rm web rails generate model FollowRelation follower_id:integer followee_id:integer
+
+docker-compose run --rm web rails db:migrate
+docker-compose run --rm web rails db:seed
+
+docker-compose run --rm web rails generate controller Tweets
+
+docker-compose run --rm web rails active_storage:install
+docker-compose run --rm web rails db:migrate
+
+# ページネーション install
+docker-compose run --rm web bundle install
+docker-compose build
+
+docker-compose run --rm web rails g kaminari:config
+docker-compose run --rm web rails g kaminari:views bootstrap4

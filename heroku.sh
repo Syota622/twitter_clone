@@ -11,9 +11,13 @@ heroku stack
 ## ローカルのfeature/singup-and-loginブランチをHerokuのmainブランチにプッシュする
 git push heroku feature/singup-and-login:main
 git push heroku feature/github-login:main
+git push heroku feature/top_page:main
 
 ## Heroku上でデータベースマイグレーションを実行する
 heroku run rake db:migrate
+
+## データの登録
+heroku run rake db:seed
 
 ## Herokuのwebプロセスを1つにスケールする
 heroku ps:scale web=1
