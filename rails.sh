@@ -78,6 +78,6 @@ docker-compose run --rm web rails generate migration RemoveAvatarFromUsers avata
 docker-compose run --rm web rails db:migrate
 docker-compose run --rm web rails generate migration RemoveHeaderImageFromUsers header_image:string
 docker-compose run --rm web rails db:migrate
-docker-compose run --rm web rails db:seed
 docker-compose run --rm web rails generate model Like user:references tweet:references
 docker-compose run --rm web rails db:migrate
+docker-compose run --rm web rails db:seed

@@ -30,6 +30,9 @@ class User < ApplicationRecord
   has_many :followees, through: :followee_relations, source: :followee
 
   has_many :tweets, dependent: :destroy
+  has_many :likes
+  # likesテーブルを経由してtweetsテーブルを参照するように設定
+  has_many :liked_tweets, through: :likes, source: :tweet
 
   # active_storageの設定
   has_one_attached :profile_image

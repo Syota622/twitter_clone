@@ -10,6 +10,7 @@ ActiveStorage::Blob.delete_all
 FollowRelation.delete_all
 Tweet.delete_all
 User.delete_all
+Like.delete_all
 
 # ユーザー作成
 users = []
@@ -46,6 +47,13 @@ end
 users.each_with_index do |user, index|
   1.upto(7) do |j|
     Tweet.create!(content: "user#{index + 1}のツイート#{j}", user: user)
+  end
+end
+
+# 「いいね」の関係作成
+users.each do |user|
+  Tweet.all.sample(rand(4)).each do |tweet|
+    Like.create!(user_id: user.id, tweet_id: tweet.id)
   end
 end
 
