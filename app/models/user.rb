@@ -29,8 +29,11 @@ class User < ApplicationRecord
                                 inverse_of: :follower
   has_many :followees, through: :followee_relations, source: :followee
 
+  has_many :tweets, dependent: :destroy
+
   # active_storageの設定
   has_one_attached :profile_image
+  has_one_attached :header_image
 
   # Omniauth認証時の処理
   def self.from_omniauth(auth)

@@ -19,23 +19,33 @@ users = []
     password: 'password',
     password_confirmation: 'password',
     phone_number: '12345678',
-    birthdate: '1990-01-01'
+    birthdate: '1990-01-01',
+    name: "User #{i}",
+    bio: "This is User #{i}'s bio.",
+    location: "City #{i}",
+    website: "http://user#{i}.website.com"
   )
 
-  # プロフィール画像を添付（このパスはあなたが画像を保存した場所に合わせて変更してください）
+  # プロフィール画像を添付
   user.profile_image.attach(
-    io: File.open(Rails.root.join('app', 'assets', 'images', "image#{i}.png")),
+    io: File.open(Rails.root.join('app', 'assets', 'images', 'profile', "image#{i}.png")),
     filename: "image#{i}.png",
     content_type: 'image/png'
   )
 
+  # header画像を添付
+  user.header_image.attach(
+    io: File.open(Rails.root.join('app', 'assets', 'images', 'header', "image#{i}.png")),
+    filename: "image#{i}.png",
+    content_type: 'image/png'
+  )
   users << user
 end
 
 # ツイート作成
 users.each_with_index do |user, index|
   1.upto(7) do |j|
-    Tweet.create!(content: "user#{index + 1}のツイート#{j}", user:)
+    Tweet.create!(content: "user#{index + 1}のツイート#{j}", user: user)
   end
 end
 
