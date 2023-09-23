@@ -71,6 +71,7 @@ docker-compose run --rm web rails generate kaminari:config
 docker-compose run --rm web rails generate kaminari:views bootstrap4
 
 ### 💻 ユーザープロフィールページの作成
+docker-compose run --rm web rails db:seed
 docker-compose run --rm web rails generate migration AddProfileFieldsToUsers name:string avatar:string header_image:string bio:text location:string website:string
 docker-compose run --rm web rails generate controller Profiles show
 docker-compose run --rm web rails db:migrate
@@ -80,4 +81,7 @@ docker-compose run --rm web rails generate migration RemoveHeaderImageFromUsers 
 docker-compose run --rm web rails db:migrate
 docker-compose run --rm web rails generate model Like user:references tweet:references
 docker-compose run --rm web rails db:migrate
-docker-compose run --rm web rails db:seed
+docker-compose run --rm web rails generate model Retweet user:references tweet:references
+docker-compose run --rm web rails db:migrate
+docker-compose run --rm web rails generate model Comment content:text user:references tweet:references
+docker-compose run --rm web rails db:migrate

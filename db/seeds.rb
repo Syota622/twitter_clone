@@ -8,9 +8,11 @@ ActiveStorage::Blob.delete_all
 
 # テーブルのデータを削除
 FollowRelation.delete_all
+Comment.delete_all
+Like.delete_all
+Retweet.delete_all
 Tweet.delete_all
 User.delete_all
-Like.delete_all
 
 # ユーザー作成
 users = []
@@ -46,14 +48,23 @@ end
 # ツイート作成
 users.each_with_index do |user, index|
   1.upto(7) do |j|
-    Tweet.create!(content: "user#{index + 1}のツイート#{j}", user: user)
+    Tweet.create!(content: "user#{index + 1}のツイート#{j}", user:)
   end
 end
 
-# 「いいね」の関係作成
+# 「いいね」「リツイート」「コメント」作成
 users.each do |user|
-  Tweet.all.sample(rand(4)).each do |tweet|
+  tweets_for_likes = Tweet.all.to_a.shuffle
+  tweets_for_likes.first(6).each do |tweet|
     Like.create!(user_id: user.id, tweet_id: tweet.id)
+  end
+  tweets_for_retweets = Tweet.where.not(user_id: user.id).to_a.shuffle
+  tweets_for_retweets.first(6).each do |tweet|
+    Retweet.create!(user_id: user.id, tweet_id: tweet.id)
+  end
+  tweets_for_comments = Tweet.where.not(user_id: user.id).to_a.shuffle
+  tweets_for_comments.first(4).each do |tweet|
+    Comment.create!(content: "user#{user.id}のコメント", user:, tweet:)
   end
 end
 
@@ -77,6 +88,6 @@ FollowRelation.create!(follower_id: users[6].id, followee_id: users[5].id)
 
 ###
 # フォロー関係作成
-# users[2] は users[0] をフォローしている。
-# users[0] は users[1] をフォローしている。
-# users[1] は users[2] をフォローしている。
+# users[2] は users[0] をフォローしている。users[0]は users[2]のフォロワー。
+# users[0] は users[1] をフォローしている。users[1]は users[0]のフォロワー。
+# users[1] は users[2] をフォローしている。users[2]は users[1]のフォロワー。
