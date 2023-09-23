@@ -8,6 +8,9 @@ ActiveStorage::Blob.delete_all
 
 # テーブルのデータを削除
 FollowRelation.delete_all
+Comment.delete_all
+Like.delete_all
+Retweet.delete_all
 Tweet.delete_all
 User.delete_all
 
@@ -19,16 +22,26 @@ users = []
     password: 'password',
     password_confirmation: 'password',
     phone_number: '12345678',
-    birthdate: '1990-01-01'
+    birthdate: '1990-01-01',
+    name: "User #{i}",
+    bio: "This is User #{i}'s bio.",
+    location: "City #{i}",
+    website: "http://user#{i}.website.com"
   )
 
-  # プロフィール画像を添付（このパスはあなたが画像を保存した場所に合わせて変更してください）
+  # プロフィール画像を添付
   user.profile_image.attach(
-    io: File.open(Rails.root.join('app', 'assets', 'images', "image#{i}.png")),
+    io: File.open(Rails.root.join('app', 'assets', 'images', 'profile', "image#{i}.png")),
     filename: "image#{i}.png",
     content_type: 'image/png'
   )
 
+  # header画像を添付
+  user.header_image.attach(
+    io: File.open(Rails.root.join('app', 'assets', 'images', 'header', "image#{i}.png")),
+    filename: "image#{i}.png",
+    content_type: 'image/png'
+  )
   users << user
 end
 
@@ -36,6 +49,22 @@ end
 users.each_with_index do |user, index|
   1.upto(7) do |j|
     Tweet.create!(content: "user#{index + 1}のツイート#{j}", user:)
+  end
+end
+
+# 「いいね」「リツイート」「コメント」作成
+users.each do |user|
+  tweets_for_likes = Tweet.all.to_a.shuffle
+  tweets_for_likes.first(6).each do |tweet|
+    Like.create!(user_id: user.id, tweet_id: tweet.id)
+  end
+  tweets_for_retweets = Tweet.where.not(user_id: user.id).to_a.shuffle
+  tweets_for_retweets.first(6).each do |tweet|
+    Retweet.create!(user_id: user.id, tweet_id: tweet.id)
+  end
+  tweets_for_comments = Tweet.where.not(user_id: user.id).to_a.shuffle
+  tweets_for_comments.first(4).each do |tweet|
+    Comment.create!(content: "user#{user.id}のコメント", user:, tweet:)
   end
 end
 
@@ -59,6 +88,6 @@ FollowRelation.create!(follower_id: users[6].id, followee_id: users[5].id)
 
 ###
 # フォロー関係作成
-# users[2] は users[0] をフォローしている。
-# users[0] は users[1] をフォローしている。
-# users[1] は users[2] をフォローしている。
+# users[2] は users[0] をフォローしている。users[0]は users[2]のフォロワー。
+# users[0] は users[1] をフォローしている。users[1]は users[0]のフォロワー。
+# users[1] は users[2] をフォローしている。users[2]は users[1]のフォロワー。

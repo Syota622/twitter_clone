@@ -50,7 +50,7 @@ html
                     i.bi.bi-gem style="margin-right: 10px;"
                     span> Twitter Blue
                 li.list-group-item style="border: none;"
-                  = link_to '#' do
+                  = link_to profile_path(current_user) do
                     i.bi.bi-person style="margin-right: 10px;"
                     span> プロフィール
                 li.list-group-item style="border: none;"
@@ -69,8 +69,10 @@ html
               .col-12
                 .tweet-box style="border: 1px solid #ccc; padding: 10px;"
                   .d-flex
+                    /ユーザーがサインインしているかつ、プロフィール画像が登録されている場合
                     - if user_signed_in? && current_user.profile_image.attached?
-                      = image_tag url_for(current_user.profile_image), alt: "Profile Image", style: "height: 40px; width: 40px; margin-right: 10px;"
+                      = link_to profile_path(current_user) do
+                        = image_tag url_for(current_user.profile_image), alt: "Profile Image", style: "height: 40px; width: 40px; margin-right: 10px;"
                     - else
                       img.profile-image src="default-profile-image-url" alt="Profile Image" style=("height: 40px; width: 40px; margin-right: 10px;")
                     .flex-grow-1
@@ -88,7 +90,6 @@ html
                             = image_tag tweet.user.profile_image, alt: "Profile Image", class: 'rounded-circle mr-3', style: "height: 40px; width: 40px;"
                           p= tweet.content
                     = paginate @tweets_all, param_name: 'page_recommend', remote: true
-
                   .tab-pane class="#{@tab == 'following' ? 'active' : ''}" id="following"
                     - @tweets_following.each do |tweet|
                       .card.mt-3

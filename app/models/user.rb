@@ -29,8 +29,20 @@ class User < ApplicationRecord
                                 inverse_of: :follower
   has_many :followees, through: :followee_relations, source: :followee
 
+  # Tweetモデルのオブジェクトを取得する
+  has_many :tweets, dependent: :destroy
+  # Likeモデルのオブジェクトを取得する
+  has_many :likes, dependent: :destroy
+  has_many :liked_tweets, through: :likes, source: :tweet # likesテーブルを経由してtweetsテーブルを参照するように設定
+  # Retweetモデルのオブジェクトを取得する
+  has_many :retweets, dependent: :destroy
+  has_many :retweeted_tweets, through: :retweets, source: :tweet
+  # Commentモデルのオブジェクトを取得する
+  has_many :comments, dependent: :destroy
+
   # active_storageの設定
   has_one_attached :profile_image
+  has_one_attached :header_image
 
   # Omniauth認証時の処理
   def self.from_omniauth(auth)
