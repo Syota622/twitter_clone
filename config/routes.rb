@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :tweets, only: [:index]
+ resources :tweets, only: [:index, :new, :create]
   root to: 'tweets#index'
   resources :profiles, only: [:show]
   devise_for :users, controllers: {
