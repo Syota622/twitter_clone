@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Tweet < ApplicationRecord
-
   # バリデーションの設定
   validates :content, length: { maximum: 140 }
 
@@ -25,9 +24,8 @@ class Tweet < ApplicationRecord
 
   # content と image のどちらかが存在することを検証する
   def content_or_image_present?
-    if content.blank? && image.blank?
-      errors.add(:base, "Content or image must be present")
-    end
-  end
+    return unless content.blank? && image.blank?
 
+    errors.add(:base, 'Content or image must be present')
+  end
 end

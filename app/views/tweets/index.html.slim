@@ -10,6 +10,8 @@ html
           i.bi.bi-twitter style="font-size: 1.5rem; margin-right: 10px; color: blue;"
           span style="color: blue;" Twitter Clone
         ul.navbar-nav
+          / ユーザーがサインインしてない場合: ログアウトボタンを表示 / ユーザーがサインインした場合: ログインボタンと新規登録ボタンを表示
+          / deviseが提供しているpathヘルパーを使用
           - if user_signed_in?
             li.nav-item
               = button_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger ml-2', form: { style: 'display: inline;' }
@@ -61,7 +63,8 @@ html
           .col-md-10
             .row
               .col-12
-                / おすすめ・フォロー中タブ
+                / おすすめ・フォロー中タブ:@tabがrecommendの場合はおすすめタブを表示、followingの場合はフォロー中タブを表示
+                / active:アクティブなタブを視覚的に表現するためのクラス
                 ul.nav.nav-tabs
                   li.nav-item
                     = link_to 'おすすめ', tweets_path(tab: 'recommend'), class: "nav-link #{@tab == 'recommend' ? 'active' : ''}"

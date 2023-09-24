@@ -8,6 +8,7 @@ class TweetsController < ApplicationController
     @tweets_all = Tweet.all.order(created_at: :desc).page(params[:page_recommend])
     # フォロー中のユーザーのツイートのページネーション
     return unless user_signed_in?
+
     @tweets_following = current_user.following_tweets.order(created_at: :desc).page(params[:page_following])
   end
 
@@ -27,13 +28,12 @@ class TweetsController < ApplicationController
   private
 
   def content_or_image_present?
-    if content.blank? && image.blank?
-      errors.add(:base, "Content or image must be present")
-    end
+    return unless content.blank? && image.blank?
+
+    errors.add(:base, 'Content or image must be present')
   end
 
   def tweet_params
     params.require(:tweet).permit(:content, :image)
   end
-
 end
