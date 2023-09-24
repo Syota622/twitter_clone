@@ -98,6 +98,7 @@ html
                             p.ml-3= tweet.content
                           - if tweet.image.attached?
                             = image_tag tweet.image, alt: "Tweet Image", style: "max-width: 35%; height: auto; display: block; margin: 10px auto;"
+                    / pagenateは、kaminariのメソッド
                     = paginate @tweets_all, param_name: 'page_recommend', remote: true
 
                   / フォロー中タブ
