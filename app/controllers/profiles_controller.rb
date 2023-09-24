@@ -3,7 +3,7 @@
 class ProfilesController < ApplicationController
   # authenticate_user!メソッドは、ログインしていないユーザーをログイン画面にリダイレクトする
   before_action :authenticate_user!
-  before_action :set_user, only: [:show, :edit, :update]
+  before_action :set_user, only: %i[show edit update]
 
   def show
     # @user = User.find(params[:id])
@@ -13,8 +13,7 @@ class ProfilesController < ApplicationController
     @comments = @user.comments.order(created_at: :desc)
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @user.update(user_params)
