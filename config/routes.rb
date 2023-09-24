@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   resources :tweets, only: [:index]
   root to: 'tweets#index'
-  resources :profiles, only: [:show]
+  resources :profiles, only: [:show, :edit, :update]
   devise_for :users, controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks',
     registrations: 'users/registrations'  # 追加
