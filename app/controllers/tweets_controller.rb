@@ -27,12 +27,6 @@ class TweetsController < ApplicationController
 
   private
 
-  def content_or_image_present?
-    return unless content.blank? && image.blank?
-
-    errors.add(:base, 'Content or image must be present')
-  end
-
   def tweet_params
     params.require(:tweet).permit(:content, :image)
   end
