@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    title Twitter Clone
+    link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+    link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css"
+    script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+  body
+    h2 新しいツイート
+    = form_with model: @tweet, local: true do |f|
+      .form-group
+        = f.label :content, "ツイート内容"
+        = f.text_area :content, class: 'form-control', maxlength: 140
+      .form-group
+        = f.label :image, "画像"
+        = f.file_field :image, class: 'form-control'
+      = f.submit 'ツイートする', class: 'btn btn-primary'

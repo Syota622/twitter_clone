@@ -10,6 +10,8 @@ html
           i.bi.bi-twitter style="font-size: 1.5rem; margin-right: 10px; color: blue;"
           span style="color: blue;" Twitter Clone
         ul.navbar-nav
+          / ユーザーがサインインしてない場合: ログアウトボタンを表示 / ユーザーがサインインした場合: ログインボタンと新規登録ボタンを表示
+          / deviseが提供しているpathヘルパーを使用
           - if user_signed_in?
             li.nav-item
               = button_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger ml-2', form: { style: 'display: inline;' }
@@ -57,16 +59,19 @@ html
                   = link_to '#' do
                     i.bi.bi-three-dots style="margin-right: 10px;"
                     span> もっと見る
-            button.btn.btn-primary type="button" style="margin-top: 20px;" ツイートする
+            = link_to "ツイートする", new_tweet_path, class: 'btn btn-primary', style: 'margin-top: 20px;'
           .col-md-10
             .row
               .col-12
+                / おすすめ・フォロー中タブ:@tabがrecommendの場合はおすすめタブを表示、followingの場合はフォロー中タブを表示
+                / active:アクティブなタブを視覚的に表現するためのクラス
                 ul.nav.nav-tabs
                   li.nav-item
                     = link_to 'おすすめ', tweets_path(tab: 'recommend'), class: "nav-link #{@tab == 'recommend' ? 'active' : ''}"
                   li.nav-item
                     = link_to 'フォロー中', tweets_path(tab: 'following'), class: "nav-link #{@tab == 'following' ? 'active' : ''}"
               .col-12
+                / ツイートボックス
                 .tweet-box style="border: 1px solid #ccc; padding: 10px;"
                   .d-flex
                     /ユーザーがサインインしているかつ、プロフィール画像が登録されている場合
@@ -79,25 +84,34 @@ html
                       .form-group.mb-0
                         textarea.form-control style=("border: none; resize: none;")
                   .d-flex.justify-content-end
-                    button.btn.btn-primary style=("border-radius: 50px;") type="submit" ツイート
+                    = link_to "ツイート", new_tweet_path, class: 'btn btn-primary', style: "border-radius: 50px;"
               .col-12
                 .tab-content
+                  / おすすめタブ
                   .tab-pane class="#{@tab == 'recommend' ? 'active' : ''}" id="recommend"
                     - @tweets_all.each do |tweet|
                       .card.mt-3
-                        .card-body.d-flex
-                          - if tweet.user.profile_image.attached?
-                            = image_tag tweet.user.profile_image, alt: "Profile Image", class: 'rounded-circle mr-3', style: "height: 40px; width: 40px;"
-                          p= tweet.content
+                        .card-body
+                          .d-flex.align-items-center
+                            - if tweet.user.profile_image.attached?
+                              = image_tag tweet.user.profile_image, alt: "Profile Image", class: 'rounded-circle mr-3', style: "height: 40px; width: 40px;"
+                            p.ml-3= tweet.content
+                          - if tweet.image.attached?
+                            = image_tag tweet.image, alt: "Tweet Image", style: "max-width: 35%; height: auto; display: block; margin: 10px auto;"
+                    / pagenateは、kaminariのメソッド
                     = paginate @tweets_all, param_name: 'page_recommend', remote: true
+
+                  / フォロー中タブ
                   .tab-pane class="#{@tab == 'following' ? 'active' : ''}" id="following"
                     - @tweets_following.each do |tweet|
                       .card.mt-3
-                        .card-body.d-flex
-                          - if tweet.user.profile_image.attached?
-                            = image_tag tweet.user.profile_image, alt: "Profile Image", class: 'rounded-circle mr-3', style: "height: 40px; width: 40px;"
-                          p= tweet.content
-                    = paginate @tweets_following, param_name: 'page_following', remote: true
+                        .card-body
+                          .d-flex.align-items-center
+                            - if tweet.user.profile_image.attached?
+                              = image_tag tweet.user.profile_image, alt: "Profile Image", class: 'rounded-circle mr-3', style: "height: 40px; width: 40px;"
+                            p.ml-3= tweet.content
+                          - if tweet.image.attached?
+                            = image_tag tweet.image, alt: "Tweet Image", style: "max-width: 35%; height: auto; display: block; margin: 10px auto;"
         - else
           .col-md-12
             p まずはログインしてください。
