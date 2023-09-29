@@ -6,7 +6,6 @@ class ProfilesController < ApplicationController
   before_action :set_user, only: %i[show edit update]
 
   def show
-    # @user = User.find(params[:id])
     @tweets = @user.tweets.order(created_at: :desc)
     @liked_tweets = @user.liked_tweets.order(created_at: :desc)
     @retweets = @user.retweeted_tweets.order(created_at: :desc)

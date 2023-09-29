@@ -12,6 +12,12 @@ class TweetsController < ApplicationController
     @tweets_following = current_user.following_tweets.order(created_at: :desc).page(params[:page_following])
   end
 
+  def show
+    @tweet = Tweet.find(params[:id])
+    @comments = @tweet.comments.order(created_at: :desc)
+    @comment = Comment.new # 
+  end
+
   def new
     @tweet = Tweet.new
   end

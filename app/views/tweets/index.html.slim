@@ -90,28 +90,30 @@ html
                   / おすすめタブ
                   .tab-pane class="#{@tab == 'recommend' ? 'active' : ''}" id="recommend"
                     - @tweets_all.each do |tweet|
-                      .card.mt-3
-                        .card-body
-                          .d-flex.align-items-center
-                            - if tweet.user.profile_image.attached?
-                              = image_tag tweet.user.profile_image, alt: "Profile Image", class: 'rounded-circle mr-3', style: "height: 40px; width: 40px;"
-                            p.ml-3= tweet.content
-                          - if tweet.image.attached?
-                            = image_tag tweet.image, alt: "Tweet Image", style: "max-width: 35%; height: auto; display: block; margin: 10px auto;"
+                      = link_to tweet_path(tweet) do
+                        .card.mt-3
+                          .card-body
+                            .d-flex.align-items-center
+                              - if tweet.user.profile_image.attached?
+                                = image_tag tweet.user.profile_image, alt: "Profile Image", class: 'rounded-circle mr-3', style: "height: 40px; width: 40px;"
+                              p.ml-3= tweet.content
+                            - if tweet.image.attached?
+                              = image_tag tweet.image, alt: "Tweet Image", style: "max-width: 35%; height: auto; display: block; margin: 10px auto;"
                     / pagenateは、kaminariのメソッド
                     = paginate @tweets_all, param_name: 'page_recommend', remote: true
 
                   / フォロー中タブ
                   .tab-pane class="#{@tab == 'following' ? 'active' : ''}" id="following"
                     - @tweets_following.each do |tweet|
-                      .card.mt-3
-                        .card-body
-                          .d-flex.align-items-center
-                            - if tweet.user.profile_image.attached?
-                              = image_tag tweet.user.profile_image, alt: "Profile Image", class: 'rounded-circle mr-3', style: "height: 40px; width: 40px;"
-                            p.ml-3= tweet.content
-                          - if tweet.image.attached?
-                            = image_tag tweet.image, alt: "Tweet Image", style: "max-width: 35%; height: auto; display: block; margin: 10px auto;"
+                      = link_to tweet_path(tweet) do
+                        .card.mt-3
+                          .card-body
+                            .d-flex.align-items-center
+                              - if tweet.user.profile_image.attached?
+                                = image_tag tweet.user.profile_image, alt: "Profile Image", class: 'rounded-circle mr-3', style: "height: 40px; width: 40px;"
+                              p.ml-3= tweet.content
+                            - if tweet.image.attached?
+                              = image_tag tweet.image, alt: "Tweet Image", style: "max-width: 35%; height: auto; display: block; margin: 10px auto;"
         - else
           .col-md-12
             p まずはログインしてください。
