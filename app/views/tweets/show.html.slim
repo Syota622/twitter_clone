@@ -22,7 +22,7 @@ html
 
       .mt-5
         h4 コメント投稿
-        = form_for [@tweet, @comment] do |f|
+        = form_with model: [@tweet, @comment], local: true do |f|
           .mb-3
             = f.label :content, "コメント内容"
             = f.text_area :content, class: 'form-control', rows: '3'
@@ -40,4 +40,3 @@ html
                 .col-md-11
                   h6= comment.user.name
                   p.mt-2= comment.content
-  
