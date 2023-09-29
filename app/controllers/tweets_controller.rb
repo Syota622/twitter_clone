@@ -13,7 +13,9 @@ class TweetsController < ApplicationController
   end
 
   def show
+    # @tweetを取得する際に、関連するuserも同時に取得する（N+1問題対策）
     @tweet = Tweet.includes(:user).find(params[:id])
+    # @tweetに関連するcommentsを取得する際に、関連するuserも同時に取得する（N+1問題対策）
     @comments = @tweet.comments.includes(:user).order(created_at: :desc)
     @comment = Comment.new
   end
