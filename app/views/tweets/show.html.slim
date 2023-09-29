@@ -1,0 +1,42 @@
+doctype html
+html
+  head
+    title Twitter Clone
+    link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+    link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css"
+    script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+
+  body
+    .container.mt-5
+      .card
+        .card-body
+          .row
+            .col-md-1
+              - if @tweet.user.profile_image.attached?
+                = image_tag @tweet.user.profile_image, alt: "Profile Image", class: 'rounded-circle img-fluid', style: "max-width: 60px;"
+            .col-md-11
+              h5= @tweet.user.name
+              p.mt-3= @tweet.content
+              - if @tweet.image.attached?
+                = image_tag @tweet.image, alt: "Tweet Image", style: "max-width: 100%; height: auto; display: block; margin-top: 10px;"
+
+      .mt-5
+        h4 コメント投稿
+        = form_with model: [@tweet, @comment], local: true do |f|
+          .mb-3
+            = f.label :content, "コメント内容"
+            = f.text_area :content, class: 'form-control', rows: '3'
+          = f.submit 'コメントする', class: 'btn btn-primary btn-sm'
+
+      .mt-5
+        h4 コメント一覧
+        - @tweet.comments.each do |comment|
+          .card.mt-3
+            .card-body
+              .row
+                .col-md-1
+                  - if comment.user.profile_image.attached?
+                    = image_tag comment.user.profile_image, alt: "Profile Image", class: 'rounded-circle img-fluid', style: "max-width: 40px;"
+                .col-md-11
+                  h6= comment.user.name
+                  p.mt-2= comment.content

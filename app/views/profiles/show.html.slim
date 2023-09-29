@@ -85,17 +85,23 @@ html
             div.tab-pane.fade.show.active#tweets
               - @tweets.each do |tweet|
                 .tweet style="border: 1px solid #e1e4e8; padding: 12px 16px; margin-bottom: 10px; border-radius: 7px;"
-                  p= tweet.content
+                  = link_to tweet_path(tweet) do
+                    p= tweet.content
+
             div.tab-pane.fade#retweets
               - @retweets.each do |tweet|
                 .tweet style="border: 1px solid #e1e4e8; padding: 12px 16px; margin-bottom: 10px; border-radius: 7px;"
-                  p= tweet.content
+                  = link_to tweet_path(tweet) do
+                    p= tweet.content
+
             div.tab-pane.fade#comments
               - @comments.each do |comment|
                 .comment style="border: 1px solid #e1e4e8; padding: 12px 16px; margin-bottom: 10px; border-radius: 7px;"
                   p= comment.content
                   small= "On tweet: #{comment.tweet.content}"
+
             div.tab-pane.fade#likes
               - @liked_tweets.each do |tweet|
                 .tweet style="border: 1px solid #e1e4e8; padding: 12px 16px; margin-bottom: 10px; border-radius: 7px;"
-                  p= tweet.content
+                  = link_to tweet_path(tweet) do
+                    p= tweet.content
