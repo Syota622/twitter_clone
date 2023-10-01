@@ -6,7 +6,6 @@ class TweetsController < ApplicationController
     @tab = params[:tab] || 'recommend' # GET パラメータから選択したタブを取得（デフォルトは 'recommend'）
     # 全ツイートのページネーション
     @tweets_all = Tweet.all.order(created_at: :desc).page(params[:page_recommend])
-
     # いいね数を取得
     @tweets_with_likes_count = Tweet.joins(:likes).group('tweets.id').count('likes.id')
 
