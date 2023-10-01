@@ -96,7 +96,7 @@ html
                   - else
                     = link_to tweet_likes_path(tweet), data: { "turbo-method": :post } do
                       i.bi.bi-heart
-                  span.ml-2= tweet.liked_users.count
+                  span.ml-2= @tweets_with_likes_count[tweet.id] || 0
 
             / リツイートタブ
             div.tab-pane.fade#retweets
@@ -112,7 +112,7 @@ html
                   - else
                     = link_to tweet_likes_path(tweet), data: { "turbo-method": :post } do
                       i.bi.bi-heart
-                  span.ml-2= tweet.liked_users.count
+                  span.ml-2= @tweets_with_likes_count[tweet.id] || 0
 
             / コメントタブ
             div.tab-pane.fade#comments
@@ -131,4 +131,4 @@ html
                       = image_tag tweet.image, alt: "Tweet Image", style: "max-width: 100%; height: auto; display: block; margin-top: 10px;"
                   = link_to tweet_like_path(tweet, tweet.likes.find_by(user: current_user)), data: { "turbo-method": :delete } do
                     i.bi.bi-heart-fill.text-danger
-                  span.ml-2= tweet.liked_users.count
+                  span.ml-2= @tweets_with_likes_count[tweet.id] || 0

@@ -6,10 +6,11 @@ class ProfilesController < ApplicationController
   before_action :set_user, only: %i[show edit update]
 
   def show
-    @tweets = @user.tweets.order(created_at: :desc)
-    @liked_tweets = @user.liked_tweets.order(created_at: :desc)
-    @retweets = @user.retweeted_tweets.order(created_at: :desc)
-    @comments = @user.comments.order(created_at: :desc)
+    @tweets = @user.tweets.order(created_at: :desc)                 # ユーザーのツイートを取得
+    @liked_tweets = @user.liked_tweets.order(created_at: :desc)     # いいねしたツイートを取得
+    @retweets = @user.retweeted_tweets.order(created_at: :desc)     # リツイートしたツイートを取得
+    @comments = @user.comments.order(created_at: :desc)             # コメントしたツイートを取得
+    @tweets_with_likes_count = Tweet.joins(:likes).group(:id).count # いいね数を取得
   end
 
   def edit; end

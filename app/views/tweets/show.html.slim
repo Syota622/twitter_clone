@@ -27,7 +27,7 @@ html
                 = link_to tweet_likes_path(@tweet), data: { "turbo-method": :post } do
                   i.bi.bi-heart
               / いいねの数を表示
-              span.ml-2= @tweet.liked_users.count
+              span.ml-2= @tweets_with_likes_count[@tweet.id] || 0
 
       .mt-5
         h4 コメント投稿
