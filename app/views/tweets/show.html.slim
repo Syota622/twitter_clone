@@ -20,7 +20,7 @@ html
               - if @tweet.image.attached?
                 = image_tag @tweet.image, alt: "Tweet Image", style: "max-width: 100%; height: auto; display: block; margin-top: 10px;"
               / 現在ログインしているユーザーが、ツイートにいいねをしているかどうかで表示を変える
-              - if @tweet.liked_users.include?(current_user)
+              - if @tweet.liked_by?(current_user)
                 = link_to tweet_like_path(@tweet, @tweet.likes.find_by(user: current_user)), data: { "turbo-method": :delete } do
                   i.bi.bi-heart-fill.text-danger
               - else

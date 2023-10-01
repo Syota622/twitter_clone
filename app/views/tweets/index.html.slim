@@ -103,7 +103,7 @@ html
                               / ツイートにいいねをしている場合、いいねを取り消すリンクを表示
                               / いいねをしていない場合、いいねをするリンクを表示
                               / /tweets/:tweet_id/likesにPOSTリクエストを送る
-                              - if tweet.liked_users.include?(current_user)
+                              - if tweet.liked_by?(current_user)
                                 = link_to tweet_like_path(tweet, tweet.likes.find_by(user: current_user)), data: { "turbo-method": :delete }
                                   i.bi.bi-heart-fill.text-danger
                               - else
@@ -130,7 +130,7 @@ html
                               / ツイートにいいねをしている場合、いいねを取り消すリンクを表示
                               / いいねをしていない場合、いいねをするリンクを表示
                               / /tweets/:tweet_id/likesにPOSTリクエストを送る
-                              - if tweet.liked_users.include?(current_user)
+                              - if tweet.liked_by?(current_user)
                                 = link_to tweet_like_path(tweet, tweet.likes.find_by(user: current_user)), data: { "turbo-method": :delete }
                                   i.bi.bi-heart-fill.text-danger
                               - else

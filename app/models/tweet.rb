@@ -20,6 +20,11 @@ class Tweet < ApplicationRecord
   # コメント機能の実装
   has_many :comments, dependent: :destroy
 
+  # tweetをいいねする
+  def liked_by?(user)
+    liked_users.include?(user)
+  end
+
   private
 
   # content と image のどちらかが存在することを検証する
