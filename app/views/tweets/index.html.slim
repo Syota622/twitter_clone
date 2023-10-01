@@ -99,8 +99,20 @@ html
                               p.ml-3= tweet.content
                             - if tweet.image.attached?
                               = image_tag tweet.image, alt: "Tweet Image", style: "max-width: 35%; height: auto; display: block; margin: 10px auto;"
-                    / pagenateは、kaminariのメソッド
-                    = paginate @tweets_all, param_name: 'page_recommend', remote: true
+                            .mt-2
+                              / ツイートにいいねをしている場合、いいねを取り消すリンクを表示
+                              / いいねをしていない場合、いいねをするリンクを表示
+                              / /tweets/:tweet_id/likesにPOSTリクエストを送る
+                              - if tweet.liked_users.include?(current_user)
+                                = link_to tweet_like_path(tweet, tweet.likes.find_by(user: current_user)), data: { "turbo-method": :delete }
+                                  i.bi.bi-heart-fill.text-danger
+                              - else
+                                = link_to tweet_likes_path(tweet), data: { "turbo-method": :post }
+                                  i.bi.bi-heart
+                              / いいねの数を表示
+                              span= tweet.likes.count
+                    / kamigoさんのページネーションのコード
+                    = paginate @tweets_all, param_name: 'page_recommend'
 
                   / フォロー中タブ
                   .tab-pane class="#{@tab == 'following' ? 'active' : ''}" id="following"
@@ -114,6 +126,21 @@ html
                               p.ml-3= tweet.content
                             - if tweet.image.attached?
                               = image_tag tweet.image, alt: "Tweet Image", style: "max-width: 35%; height: auto; display: block; margin: 10px auto;"
+                            .mt-2
+                              / ツイートにいいねをしている場合、いいねを取り消すリンクを表示
+                              / いいねをしていない場合、いいねをするリンクを表示
+                              / /tweets/:tweet_id/likesにPOSTリクエストを送る
+                              - if tweet.liked_users.include?(current_user)
+                                = link_to tweet_like_path(tweet, tweet.likes.find_by(user: current_user)), data: { "turbo-method": :delete }
+                                  i.bi.bi-heart-fill.text-danger
+                              - else
+                                = link_to tweet_likes_path(tweet), data: { "turbo-method": :post }
+                                  i.bi.bi-heart
+                              / いいねの数を表示
+                              span.ml-2= tweet.liked_users.count
+                    / kamigoさんのページネーションのコード
+                    = paginate @tweets_following, param_name: 'page_following'
+
         - else
           .col-md-12
             p まずはログインしてください。
