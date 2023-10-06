@@ -36,7 +36,7 @@ html
                 = link_to tweet_retweet_path(@tweet), data: { "turbo-method": :post } do
                   i.bi.bi-arrow-repeat.text-primary
               / リツイートの数を表示
-              span.ml-2= @tweets_with_retweets_count[tweet.id] || 0
+              span.ml-2= @tweets_with_retweets_count[@tweet.id] || 0
 
       .mt-5
         h4 コメント投稿
