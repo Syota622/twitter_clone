@@ -19,24 +19,28 @@ html
               p.mt-3= @tweet.content
               - if @tweet.image.attached?
                 = image_tag @tweet.image, alt: "Tweet Image", style: "max-width: 100%; height: auto; display: block; margin-top: 10px;"
-              / 現在ログインしているユーザーが、ツイートにいいねをしているかどうかで表示を変える
-              - if @tweet.liked_by?(current_user)
-                = link_to tweet_like_path(@tweet, @tweet.likes.find_by(user: current_user)), data: { "turbo-method": :delete } do
-                  i.bi.bi-heart-fill.text-danger
-              - else
-                = link_to tweet_likes_path(@tweet), data: { "turbo-method": :post } do
-                  i.bi.bi-heart
-              / いいねの数を表示
-              span.ml-2= @tweets_with_likes_count[@tweet.id] || 0
               / リツイートの部分
               - if @tweet.retweeted_by?(current_user)
                 = link_to tweet_retweet_path(@tweet), data: { "turbo-method": :delete } do
-                  i.bi.bi-arrow-repeat.i.bi.bi-arrow-repeat.text-success
+                  i.bi.bi-arrow-repeat.text-success
+                span= @tweets_with_retweets_count[@tweet.id] || 0
               - else
                 = link_to tweet_retweet_path(@tweet), data: { "turbo-method": :post } do
                   i.bi.bi-arrow-repeat.text-primary
-              / リツイートの数を表示
-              span.ml-2= @tweets_with_retweets_count[@tweet.id] || 0
+                span= @tweets_with_retweets_count[@tweet.id] || 0
+
+              span.mx-4
+              / この空のspanでリツイートといいねの間にスペースを追加
+
+              / いいねの部分
+              - if @tweet.liked_by?(current_user)
+                = link_to tweet_like_path(@tweet, @tweet.likes.find_by(user: current_user)), data: { "turbo-method": :delete } do
+                  i.bi.bi-heart-fill.text-danger
+                span= @tweets_with_likes_count[@tweet.id] || 0
+              - else
+                = link_to tweet_likes_path(@tweet), data: { "turbo-method": :post } do
+                  i.bi.bi-heart
+                span= @tweets_with_likes_count[@tweet.id] || 0
 
       .mt-5
         h4 コメント投稿
