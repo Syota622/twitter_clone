@@ -22,7 +22,12 @@ class Tweet < ApplicationRecord
 
   # tweetをいいねする
   def liked_by?(user)
-    liked_users.include?(user)
+    likes.where(user_id: user.id).exists?
+  end
+
+  # tweetをリツイートする
+  def retweeted_by?(user)
+    retweets.where(user_id: user.id).exists?
   end
 
   private

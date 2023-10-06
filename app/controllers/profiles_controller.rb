@@ -11,6 +11,7 @@ class ProfilesController < ApplicationController
     @retweets = @user.retweeted_tweets.order(created_at: :desc)     # リツイートしたツイートを取得
     @comments = @user.comments.order(created_at: :desc)             # コメントしたツイートを取得
     @tweets_with_likes_count = Tweet.joins(:likes).group(:id).count # いいね数を取得
+    @tweets_with_retweets_count = Tweet.joins(:retweets).group(:id).count # リツイート数を取得
   end
 
   def edit; end

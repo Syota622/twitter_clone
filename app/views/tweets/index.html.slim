@@ -111,6 +111,17 @@ html
                                   i.bi.bi-heart
                               / いいねの数を表示
                               span.ml-2= @tweets_with_likes_count[tweet.id] || 0
+
+                              / リツイートの部分
+                              - if tweet.retweeted_by?(current_user)
+                                = link_to tweet_retweet_path(tweet), data: { "turbo-method": :delete } do
+                                  i.bi.bi-arrow-repeat.i.bi.bi-arrow-repeat.text-success
+                              - else
+                                = link_to tweet_retweet_path(tweet), data: { "turbo-method": :post } do
+                                  i.bi.bi-arrow-repeat.text-primary
+                              / リツイートの数を表示
+                              span.ml-2= @tweets_with_retweets_count[tweet.id] || 0
+
                     / kamigoさんのページネーションのコード
                     = paginate @tweets_all, param_name: 'page_recommend'
 
@@ -138,6 +149,17 @@ html
                                   i.bi.bi-heart
                               / いいねの数を表示
                               span.ml-2= @tweets_with_likes_count[tweet.id] || 0
+
+                              / リツイートの部分
+                              - if tweet.retweeted_by?(current_user)
+                                = link_to tweet_retweet_path(tweet), data: { "turbo-method": :delete } do
+                                  i.bi.bi-arrow-repeat.i.bi.bi-arrow-repeat.text-success
+                              - else
+                                = link_to tweet_retweet_path(tweet), data: { "turbo-method": :post } do
+                                  i.bi.bi-arrow-repeat.text-primary
+                              / リツイートの数を表示
+                              span.ml-2= @tweets_with_retweets_count[tweet.id] || 0
+
                     / kamigoさんのページネーションのコード
                     = paginate @tweets_following, param_name: 'page_following'
 
