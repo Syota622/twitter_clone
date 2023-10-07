@@ -7,7 +7,9 @@ class TweetsController < ApplicationController
     # 全ツイートのページネーション
     @tweets_all = Tweet.all.order(created_at: :desc).page(params[:page_recommend])
     # いいね数を取得
-    @tweets_with_likes_count = Tweet.joins(:likes).group('tweets.id').count('likes.id')
+    @tweets_with_likes_count = Tweet.joins(:likes).group(:id).count
+    # リツイート数を取得
+    @tweets_with_retweets_count = Tweet.joins(:retweets).group(:id).count
 
     # フォロー中のユーザーのツイートのページネーション
     return unless user_signed_in?
@@ -25,6 +27,8 @@ class TweetsController < ApplicationController
 
     # いいねの数を取得
     @tweets_with_likes_count = Tweet.joins(:likes).group(:id).count
+    # リツイート数を取得
+    @tweets_with_retweets_count = Tweet.joins(:retweets).group(:id).count
   end
 
   def new
