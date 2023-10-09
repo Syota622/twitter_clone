@@ -71,8 +71,8 @@ class User < ApplicationRecord
     Tweet.where(user_id: followees.pluck(:id)).order(created_at: :desc)
   end
 
-  # ユーザーをフォローする
+  # ユーザーをフォローしているかどうかを判定
   def followed_by?(user)
-    follower_relations.where(followee_id: user.id).exists?
+    followee_relations.where(follower_id: user.id).exists?
   end
 end

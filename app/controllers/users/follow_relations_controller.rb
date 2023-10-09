@@ -6,7 +6,8 @@ module Users
     # ユーザーをフォローする
     def create
       @user = User.find(params[:user_id])
-      @follow_relation = current_user.follower_relations.build(followee_id: @user.id)
+      # ログインしたユーザーが、@userをフォローする
+      @follow_relation = current_user.followee_relations.build(follower_id: @user.id)
       Rails.logger.debug("@follow_relation_create: #{@follow_relation.inspect}")
 
       @follow_relation.save
@@ -16,9 +17,10 @@ module Users
     # フォローを解除する
     def destroy
       @user = User.find(params[:user_id])
-      Rails.logger.debug("@user: #{@user.inspect}")
-      @follow_relation = current_user.follower_relations.find_by(followee_id: @user.id)
-      Rails.logger.debug("@follow_relation_destroy: #{@follow_relation.inspect}")
+      # ログインしたユーザーが、@userのフォローを解除する
+      @follow_relation = current_user.followee_relations.find_by(follower_id: @user.id)
+      Rails.logger.debug("@follow_relation_delete: #{@follow_relation.inspect}")
+
       @follow_relation.destroy
       redirect_to request.referer || root_path
     end

@@ -12,6 +12,7 @@ html
         .card-body
           .row
             .col-md-1
+              / プロフィール画像が登録されている場合、画像を表示
               - if @tweet.user.profile_image.attached?
                 = image_tag @tweet.user.profile_image, alt: "Profile Image", class: 'rounded-circle img-fluid', style: "max-width: 60px;"
             .col-md-11
@@ -35,8 +36,11 @@ html
                       a.dropdown-item href="#"
                         | 不適切な内容として報告
               p.mt-3= @tweet.content
+
+              / ツイートに画像が登録されている場合、画像を表示
               - if @tweet.image.attached?
                 = image_tag @tweet.image, alt: "Tweet Image", style: "max-width: 100%; height: auto; display: block; margin-top: 10px;"
+
               / リツイートの部分
               - if @tweet.retweeted_by?(current_user)
                 = link_to tweet_retweet_path(@tweet), data: { "turbo-method": :delete } do
