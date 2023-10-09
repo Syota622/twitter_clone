@@ -14,6 +14,7 @@ class TweetsController < ApplicationController
     # フォロー中のユーザーのツイートのページネーション
     return unless user_signed_in?
 
+    # フォロー中のユーザーのツイートを取得
     @tweets_following = current_user.following_tweets.order(created_at: :desc).page(params[:page_following])
   end
 
@@ -35,6 +36,7 @@ class TweetsController < ApplicationController
     @tweet = Tweet.new
   end
 
+  # ツイートを作成する
   def create
     @tweet = current_user.tweets.build(tweet_params)
     if @tweet.save

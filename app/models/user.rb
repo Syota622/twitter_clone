@@ -21,13 +21,17 @@ class User < ApplicationRecord
   validates :birthdate, presence: true, unless: :omniauth_user?
 
   # UserモデルのオブジェクトからFollowRelationモデルのオブジェクトを取得する
-  has_many :follower_relations, foreign_key: :followee_id, class_name: 'FollowRelation', dependent: :destroy,
-                                inverse_of: :followee
-  has_many :followers, through: :follower_relations, source: :follower
-
-  has_many :followee_relations, foreign_key: :follower_id, class_name: 'FollowRelation', dependent: :destroy,
+  # follower_relationsに対しては、自分がfollowerとなる関連付けなので、foreign_keyは:follower_idとなる
+  # 現在のユーザーが、フォローしているユーザーの一覧を参照する
+  has_many :follower_relations, foreign_key: :follower_id, class_name: 'FollowRelation', dependent: :destroy,
                                 inverse_of: :follower
-  has_many :followees, through: :followee_relations, source: :followee
+  has_many :followers, through: :follower_relations, source: :followee
+
+  # followee_relationsに対しては、自分がfolloweeとなる関連付けなので、foreign_keyは:followee_idとなる
+  # 現在のユーザーが、フォローされているユーザーの一覧を参照する
+  has_many :followee_relations, foreign_key: :followee_id, class_name: 'FollowRelation', dependent: :destroy,
+                                inverse_of: :followee
+  has_many :followees, through: :followee_relations, source: :follower
 
   # Tweetモデルのオブジェクトを取得する
   has_many :tweets, dependent: :destroy
@@ -65,5 +69,10 @@ class User < ApplicationRecord
   # pluck：特定のカラムの値だけ取得する
   def following_tweets
     Tweet.where(user_id: followees.pluck(:id)).order(created_at: :desc)
+  end
+
+  # 現在のユーザー（current_user）がフォローしている人たちの中で、指定されたuserをフォローしている関連付けがあるかどうかを判定
+  def followed_by?(user)
+    followee_relations.where(follower_id: user.id).exists?
   end
 end
