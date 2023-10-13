@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     resources :comments, only: [:create]
     resources :likes, only: %i[create destroy]
     resource :retweet, only: %i[create destroy]
-    resource :bookmark, only: [:create, :destroy]
+    resource :bookmark, only: %i[create destroy]
   end
 
   resources :profiles, only: %i[show edit update]

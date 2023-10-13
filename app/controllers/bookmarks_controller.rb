@@ -1,5 +1,6 @@
-class BookmarksController < ApplicationController
+# frozen_string_literal: true
 
+class BookmarksController < ApplicationController
   before_action :authenticate_user!
 
   def index
@@ -12,11 +13,11 @@ class BookmarksController < ApplicationController
     @bookmark = current_user.bookmarks.create(tweet: @tweet)
     redirect_to request.referer || root_path
   end
-  
+
   def destroy
     @tweet = Tweet.find(params[:tweet_id])
     @bookmark = current_user.bookmarks.find_by(tweet_id: @tweet.id)
-    @bookmark.destroy if @bookmark
+    @bookmark&.destroy
     redirect_to request.referer || root_path
   end
 end
