@@ -6,6 +6,8 @@ class BookmarksController < ApplicationController
   def index
     @user = current_user
     @bookmarked_tweets = Tweet.joins(:bookmarks).where(bookmarks: { user_id: @user.id })
+    @tweets_with_retweets_count = Tweet.joins(:retweets).group(:id).count
+    @tweets_with_likes_count = Tweet.joins(:likes).group(:id).count
   end
 
   def create
