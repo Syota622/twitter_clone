@@ -19,6 +19,8 @@ class Tweet < ApplicationRecord
   has_many :retweeters, through: :retweets, source: :user
   # コメント機能の実装
   has_many :comments, dependent: :destroy
+  # ブックマーク機能の実装
+  has_many :bookmarks, dependent: :destroy
 
   # tweetをいいねする
   def liked_by?(user)
@@ -28,6 +30,11 @@ class Tweet < ApplicationRecord
   # tweetをリツイートする
   def retweeted_by?(user)
     retweets.where(user_id: user.id).exists?
+  end
+
+  # 現在のユーザーが、指定されたtweetをブックマークしているかどうかを判定
+  def bookmarked_by?(user)
+    bookmarks.where(user_id: user.id).exists?
   end
 
   private

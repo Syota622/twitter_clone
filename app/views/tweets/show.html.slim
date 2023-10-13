@@ -64,6 +64,16 @@ html
                   i.bi.bi-heart
                 span= @tweets_with_likes_count[@tweet.id] || 0
 
+              span.mx-4
+
+              / ブックマークの部分
+              - if @tweet.bookmarked_by?(current_user)
+                = link_to tweet_bookmark_path(@tweet), data: { "turbo-method": :delete } do
+                  i.bi.bi-bookmark-fill
+              - else
+                = link_to tweet_bookmark_path(@tweet), data: { "turbo-method": :post } do
+                  i.bi.bi-bookmark
+
       .mt-5
         h4 コメント投稿
         = form_with model: [@tweet, @comment], local: true do |f|
