@@ -43,7 +43,7 @@ html
                     i.bi.bi-bell style="margin-right: 10px;"
                     span> 通知
                 li.list-group-item style="border: none;"
-                  = link_to '#' do
+                  = link_to messages_path do
                     i.bi.bi-envelope style="margin-right: 10px;"
                     span> メッセージ
                 li.list-group-item style="border: none;"
@@ -116,6 +116,8 @@ html
                                 - else
                                   li
                                     = link_to "フォローする", user_follow_relation_path(tweet.user), data: { "turbo-method": :post }, class: 'dropdown-item'
+                                li
+                                  = link_to "メッセージを送る", messages_path, class: 'dropdown-item'
                                 li
                                   a.dropdown-item href="#"
                                     | ツイートを非表示
@@ -190,6 +192,8 @@ html
                                 - else
                                   li
                                     = link_to "フォローする", user_follow_relation_path(tweet.user), data: { "turbo-method": :post }, class: 'dropdown-item'
+                                li
+                                  = link_to "メッセージを送る", messages_path, class: 'dropdown-item'
                                 li
                                   a.dropdown-item href="#"
                                     | ツイートを非表示

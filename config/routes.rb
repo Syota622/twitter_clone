@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   resources :profiles, only: %i[show edit update]
   resources :bookmarks, only: [:index]
 
+  resources :messages, only: %i[index show create]
+
   devise_for :users, controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks',
     registrations: 'users/registrations'  # 追加

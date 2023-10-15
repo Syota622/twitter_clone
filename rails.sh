@@ -90,3 +90,8 @@ docker-compose run --rm web rails db:migrate
 docker-compose run --rm web rails generate model Bookmark user:references tweet:references
 docker-compose run --rm web rails db:migrate
 docker-compose run --rm web rails generate controller Bookmarks
+
+### 💻 メッセージ機能
+docker-compose run --rm web rails generate controller Messages
+docker-compose run --rm web rails generate model Message sender_id:integer recipient_id:integer content:text
+docker-compose run --rm web rails db:migrate

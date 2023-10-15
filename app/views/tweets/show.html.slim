@@ -30,6 +30,8 @@ html
                       li
                         = link_to "フォローする", user_follow_relation_path(@tweet.user), data: { "turbo-method": :post }, class: 'dropdown-item'
                     li
+                      = link_to "メッセージを送る", messages_path, class: 'dropdown-item'
+                    li
                       a.dropdown-item href="#"
                         | ツイートを非表示
                     li
