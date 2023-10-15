@@ -1,0 +1,56 @@
+doctype html
+html
+  head
+    title Twitter Clone
+    link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
+    script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+  body
+    h3.text-center.mb-4 ブックマーク一覧
+    - @bookmarked_tweets.each do |tweet|
+      .card.mt-3.shadow-sm
+        .card-body
+          .row
+            .col-1
+              - if tweet.user.profile_image.attached?
+                = image_tag tweet.user.profile_image, alt: "Profile Image", class: 'rounded-circle mr-3', style: "height: 40px; width: 40px;"
+            .col-11
+              h5.card-title= tweet.user.name
+              p.card-text= tweet.content
+              - if tweet.image.attached?
+                = link_to tweet_path(tweet) do
+                  = image_tag tweet.image, alt: "Tweet Image", style: "max-width: 35%; height: auto; display: block; margin: 10px auto;"
+
+              .mt-2
+                / リツイートの部分
+                - if tweet.retweeted_by?(current_user)
+                  = link_to tweet_retweet_path(tweet), data: { "turbo-method": :delete } do
+                    i.bi.bi-arrow-repeat.text-success
+                  span= @tweets_with_retweets_count[tweet.id] || 0
+                - else
+                  = link_to tweet_retweet_path(tweet), data: { "turbo-method": :post } do
+                    i.bi.bi-arrow-repeat.text-primary
+                  span= @tweets_with_retweets_count[tweet.id] || 0
+
+                span.mx-4
+
+                / いいねの部分
+                - if tweet.liked_by?(current_user)
+                  = link_to tweet_like_path(tweet, tweet.likes.find_by(user: current_user)), data: { "turbo-method": :delete } do
+                    i.bi.bi-heart-fill.text-danger
+                  span= @tweets_with_likes_count[tweet.id] || 0
+                - else
+                  = link_to tweet_likes_path(tweet), data: { "turbo-method": :post } do
+                    i.bi.bi-heart
+                  span= @tweets_with_likes_count[tweet.id] || 0
+
+                span.mx-4
+
+                / ブックマークの部分
+                - if tweet.bookmarked_by?(current_user)
+                  = link_to tweet_bookmark_path(tweet), data: { "turbo-method": :delete } do
+                    i.bi.bi-bookmark-fill
+                - else
+                  = link_to tweet_bookmark_path(tweet), data: { "turbo-method": :post } do
+                    i.bi.bi-bookmark

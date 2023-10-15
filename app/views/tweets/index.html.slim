@@ -47,7 +47,7 @@ html
                     i.bi.bi-envelope style="margin-right: 10px;"
                     span> メッセージ
                 li.list-group-item style="border: none;"
-                  = link_to '#' do
+                  = link_to bookmarks_path do
                     i.bi.bi-bookmark style="margin-right: 10px;"
                     span> ブックマーク
                 li.list-group-item style="border: none;"
@@ -153,6 +153,16 @@ html
                                 i.bi.bi-heart
                               span= @tweets_with_likes_count[tweet.id] || 0
 
+                            span.mx-4
+
+                            / ブックマークの部分
+                            - if tweet.bookmarked_by?(current_user)
+                              = link_to tweet_bookmark_path(tweet), data: { "turbo-method": :delete } do
+                                i.bi.bi-bookmark-fill
+                            - else
+                              = link_to tweet_bookmark_path(tweet), data: { "turbo-method": :post } do
+                                i.bi.bi-bookmark
+
                     / kamigoさんのページネーションのコード
                     = paginate @tweets_all, param_name: 'page_recommend'
 
@@ -219,6 +229,17 @@ html
                               = link_to tweet_likes_path(tweet), data: { "turbo-method": :post } do
                                 i.bi.bi-heart
                               span= @tweets_with_likes_count[tweet.id] || 0
+
+
+                            span.mx-4
+
+                            / ブックマークの部分
+                            - if tweet.bookmarked_by?(current_user)
+                              = link_to tweet_bookmark_path(tweet), data: { "turbo-method": :delete } do
+                                i.bi.bi-bookmark-fill
+                            - else
+                              = link_to tweet_bookmark_path(tweet), data: { "turbo-method": :post } do
+                                i.bi.bi-bookmark
 
                     / kamigoさんのページネーションのコード
                     = paginate @tweets_following, param_name: 'page_following'
