@@ -43,6 +43,10 @@ class User < ApplicationRecord
   has_many :retweeted_tweets, through: :retweets, source: :tweet
   # Commentモデルのオブジェクトを取得する
   has_many :comments, dependent: :destroy
+  # Messageモデルのオブジェクトを取得する
+  has_many :sent_messages, class_name: 'Message', foreign_key: 'sender_id', dependent: :destroy, inverse_of: :sender
+  has_many :received_messages, class_name: 'Message', foreign_key: 'recipient_id', dependent: :destroy,
+                               inverse_of: :recipient
 
   # active_storageの設定
   has_one_attached :profile_image
