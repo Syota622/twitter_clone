@@ -43,6 +43,8 @@ class User < ApplicationRecord
   has_many :retweeted_tweets, through: :retweets, source: :tweet
   # Commentモデルのオブジェクトを取得する
   has_many :comments, dependent: :destroy
+  # Bookmarkモデルのオブジェクトを取得する
+  has_many :bookmarks, dependent: :destroy
 
   # active_storageの設定
   has_one_attached :profile_image

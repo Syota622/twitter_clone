@@ -7,9 +7,11 @@ Rails.application.routes.draw do
     resources :comments, only: [:create]
     resources :likes, only: %i[create destroy]
     resource :retweet, only: %i[create destroy]
+    resource :bookmark, only: %i[create destroy]
   end
 
   resources :profiles, only: %i[show edit update]
+  resources :bookmarks, only: [:index]
 
   devise_for :users, controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks',
