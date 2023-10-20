@@ -15,6 +15,8 @@ class CommentsController < ApplicationController
         user: @tweet.user,  # コメントされた(通知先)ユーザー
         actionable: @comment   # 通知の種類、ツイートIDの二つの情報を持つ(polymorphic)
       )
+      # メールの送信を行う
+      NotificationMailer.notify_user(@tweet.user, @comment).deliver_now
     else
       render 'tweets/show'
     end

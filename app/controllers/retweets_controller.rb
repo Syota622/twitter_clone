@@ -12,6 +12,8 @@ class RetweetsController < ApplicationController
         user: @tweet.user,  # リツイートされた(通知先)ユーザー
         actionable: @retweet   # 通知の種類、ツイートIDの二つの情報を持つ(polymorphic)
       )
+    # メールの送信を行う
+    NotificationMailer.notify_user(@tweet.user, @retweet).deliver_now
     end
     # 現在のページにアクセスする前にいたページにリダイレクトする。
     redirect_to request.referer || root_path
