@@ -31,7 +31,7 @@ html
                   i.bi.bi-bell style="margin-right: 10px;"
                   span> 通知
               li.list-group-item style="border: none;"
-                = link_to '#' do
+                = link_to messages_path do
                   i.bi.bi-envelope style="margin-right: 10px;"
                   span> メッセージ
               li.list-group-item style="border: none;"
@@ -54,25 +54,16 @@ html
 
         .col-md-5
           .card.shadow-sm
-            .card-header.bg-primary.text-white
-              h3 メッセージの部屋
-            .card-body
-              ul.list-group
-                - @users.each do |user|
-                  li.list-group-item
-                    = link_to user.name, messages_path(user_id: user.id), class: "text-decoration-none"
+            ul.list-group
+              - @notifications.each do |notification|
+                li.list-group-item
+                  - case notification.actionable_type
+                  - when "Like"
+                    | #{notification.user.name} があなたのツイート「#{notification.actionable.tweet.content}」にいいねしました。
+                  - when "Comment"
+                    | #{notification.user.name} があなたのツイート「#{notification.actionable.tweet.content}」にコメント「#{notification.actionable.content}」を付けました。
+                  - when "Retweet"
+                    | #{notification.user.name} があなたのツイート「#{notification.actionable.tweet.content}」をリツイートしました。
+                  - else
+                    | 不明な通知タイプ
 
-        .col-md-5
-          .card.shadow-sm
-            .card-header.bg-secondary.text-white
-              h3 メッセージ一覧
-            .card-body
-              - if @messages
-                - @messages.each do |message|
-                  .border.p-2.mb-2
-                    p= message.content
-
-              = form_for Message.new, url: messages_path(user_id: @recipient&.id), data: { "turbo-method": :post }, html: { class: 'mt-3' } do |f|
-                = f.text_area :content, class: 'form-control', rows: 5, placeholder: "メッセージを入力してください..."
-                .mt-3
-                  = f.submit "送信", class: "btn btn-primary btn-block"
