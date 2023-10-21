@@ -48,7 +48,7 @@ class User < ApplicationRecord
   # Messageモデルのオブジェクトを取得する
   has_many :sent_messages, class_name: 'Message', foreign_key: 'sender_id', dependent: :destroy, inverse_of: :sender
   has_many :received_messages, class_name: 'Message', foreign_key: 'recipient_id', dependent: :destroy,
-                               inverse_of: :recipient  
+                               inverse_of: :recipient
   # Notificationモデルのオブジェクトを取得する
   has_many :notifications, dependent: :destroy
 
