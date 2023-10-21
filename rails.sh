@@ -95,3 +95,9 @@ docker-compose run --rm web rails generate controller Bookmarks
 docker-compose run --rm web rails generate controller Messages
 docker-compose run --rm web rails generate model Message sender_id:integer recipient_id:integer content:text
 docker-compose run --rm web rails db:migrate
+
+### 💻 通知機能
+docker-compose run --rm web rails generate controller Notifications
+docker-compose run --rm web rails generate model Notification user:references actionable:references{polymorphic}
+docker-compose run --rm web rails db:migrate
+docker-compose run --rm web rails generate mailer NotificationMailer
