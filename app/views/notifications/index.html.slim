@@ -59,11 +59,10 @@ html
                 li.list-group-item
                   - case notification.actionable_type
                   - when "Like"
-                    | #{notification.user.name} があなたのツイート「#{notification.actionable.tweet.content}」にいいねしました。
+                    | #{notification.actionable.user.name} があなたのツイート「#{notification.actionable.tweet.content}」にいいねしました。
                   - when "Comment"
-                    | #{notification.user.name} があなたのツイート「#{notification.actionable.tweet.content}」にコメント「#{notification.actionable.content}」を付けました。
+                    | #{notification.actionable.user.name} があなたのツイート「#{notification.actionable.tweet.content}」にコメント「#{notification.actionable.content}」を付けました。
                   - when "Retweet"
-                    | #{notification.user.name} があなたのツイート「#{notification.actionable.tweet.content}」をリツイートしました。
+                    | #{notification.actionable.user.name} があなたのツイート「#{notification.actionable.tweet.content}」をリツイートしました。
                   - else
                     | 不明な通知タイプ
-

@@ -8,6 +8,8 @@ ActiveStorage::Blob.delete_all
 
 # テーブルのデータを削除
 FollowRelation.delete_all
+Bookmark.delete_all
+Notification.delete_all
 Comment.delete_all
 Like.delete_all
 Retweet.delete_all
@@ -48,23 +50,44 @@ end
 # ツイート作成
 users.each_with_index do |user, index|
   1.upto(7) do |j|
-    Tweet.create!(content: "user#{index + 1}のツイート#{j}", user:)
+    Tweet.create!(content: "user#{index + 1}のツイート#{j}", user: user)  # `user:`の部分を修正
   end
 end
 
 # 「いいね」「リツイート」「コメント」作成
 users.each do |user|
-  tweets_for_likes = Tweet.all.to_a.shuffle
-  tweets_for_likes.first(6).each do |tweet|
-    Like.create!(user_id: user.id, tweet_id: tweet.id)
+  # 自分のツイートを除外する
+  tweets_for_likes = Tweet.where.not(user_id: user.id).to_a.shuffle
+  tweets_for_likes.first(2).each do |tweet|
+    like = Like.create!(user_id: user.id, tweet_id: tweet.id)
+    
+    # 通知を作成
+    Notification.create!(
+      user: tweet.user,
+      actionable: like
+    ) if tweet.user != user
   end
+
   tweets_for_retweets = Tweet.where.not(user_id: user.id).to_a.shuffle
-  tweets_for_retweets.first(6).each do |tweet|
-    Retweet.create!(user_id: user.id, tweet_id: tweet.id)
+  tweets_for_retweets.first(2).each do |tweet|
+    retweet = Retweet.create!(user_id: user.id, tweet_id: tweet.id)
+    
+    # 通知を作成
+    Notification.create!(
+      user: tweet.user,
+      actionable: retweet
+    ) if tweet.user != user 
   end
+
   tweets_for_comments = Tweet.where.not(user_id: user.id).to_a.shuffle
-  tweets_for_comments.first(4).each do |tweet|
-    Comment.create!(content: "user#{user.id}のコメント", user:, tweet:)
+  tweets_for_comments.first(2).each do |tweet|
+    comment = Comment.create!(content: "user#{user.id}のコメント", user: user, tweet: tweet)
+    
+    # 通知を作成
+    Notification.create!(
+      user: tweet.user,
+      actionable: comment
+    ) if tweet.user != user
   end
 end
 
