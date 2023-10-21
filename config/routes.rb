@@ -14,7 +14,6 @@ Rails.application.routes.draw do
   resources :bookmarks, only: [:index]
 
   resources :messages, only: %i[index show create]
-  resources :notifications, only: [:index]
 
   devise_for :users, controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks',
