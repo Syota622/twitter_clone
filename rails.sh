@@ -103,3 +103,7 @@ docker-compose run --rm web rails db:migrate
 docker-compose run --rm web rails generate mailer NotificationMailer
 
 ### 自動テスト
+
+# 単体テスト
+docker-compose run --rm web bundle exec rspec
+docker-compose run --rm web bundle exec rspec spec/models/user_spec.rb
