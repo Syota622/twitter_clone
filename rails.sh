@@ -101,3 +101,5 @@ docker-compose run --rm web rails generate controller Notifications
 docker-compose run --rm web rails generate model Notification user:references actionable:references{polymorphic}
 docker-compose run --rm web rails db:migrate
 docker-compose run --rm web rails generate mailer NotificationMailer
+
+### 自動テスト
