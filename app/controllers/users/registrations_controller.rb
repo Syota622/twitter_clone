@@ -16,7 +16,7 @@ module Users
     private
 
     def sign_up_params
-      params.require(:user).permit(:email, :password, :password_confirmation, :profile_image)
+      params.require(:user).permit(:email, :password, :password_confirmation, :profile_image, :phone_number, :birthdate)
     end
 
     def account_update_params

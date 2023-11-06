@@ -107,3 +107,6 @@ docker-compose run --rm web rails generate mailer NotificationMailer
 # 単体テスト
 docker-compose run --rm web bundle exec rspec
 docker-compose run --rm web bundle exec rspec spec/models/user_spec.rb
+
+# リクエストスペック
+docker-compose run --rm web bundle exec rspec spec/requests/registrations_spec.rb
