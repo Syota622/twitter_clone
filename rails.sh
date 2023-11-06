@@ -110,3 +110,4 @@ docker-compose run --rm web bundle exec rspec spec/models/user_spec.rb
 
 # リクエストスペック
 docker-compose run --rm web bundle exec rspec spec/requests/registrations_spec.rb
+docker-compose run --rm web bundle exec rspec spec/requests/sessions_spec.rb
