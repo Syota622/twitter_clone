@@ -112,3 +112,8 @@ docker-compose run --rm web bundle exec rspec spec/models/user_spec.rb
 docker-compose run --rm web bundle exec rspec spec/requests/registrations_spec.rb
 docker-compose run --rm web bundle exec rspec spec/requests/sessions_spec.rb
 docker-compose run --rm web bundle exec rspec spec/requests/tweets_spec.rb
+
+# システムテスト(E2E)
+docker-compose run --rm web bundle exec rspec spec/system/registrations_spec.rb
+docker-compose run --rm web bundle exec rspec spec/system/sessions_spec.rb
+docker-compose run --rm web bundle exec rspec spec/system/tweets_spec.rb
