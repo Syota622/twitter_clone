@@ -101,3 +101,19 @@ docker-compose run --rm web rails generate controller Notifications
 docker-compose run --rm web rails generate model Notification user:references actionable:references{polymorphic}
 docker-compose run --rm web rails db:migrate
 docker-compose run --rm web rails generate mailer NotificationMailer
+
+### 自動テスト
+
+# 単体テスト
+docker-compose run --rm web bundle exec rspec
+docker-compose run --rm web bundle exec rspec spec/models/user_spec.rb
+
+# リクエストスペック
+docker-compose run --rm web bundle exec rspec spec/requests/registrations_spec.rb
+docker-compose run --rm web bundle exec rspec spec/requests/sessions_spec.rb
+docker-compose run --rm web bundle exec rspec spec/requests/tweets_spec.rb
+
+# システムテスト(E2E)
+docker-compose run --rm web bundle exec rspec spec/system/registrations_spec.rb
+docker-compose run --rm web bundle exec rspec spec/system/sessions_spec.rb
+docker-compose run --rm web bundle exec rspec spec/system/tweets_spec.rb
