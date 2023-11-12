@@ -20,8 +20,10 @@ RSpec.describe "User Signup", type: :system do
       fill_in "user_password_confirmation", with: "password123"
       fill_in "user_phone_number", with: "1234567890"
       fill_in "user_birthdate", with: "2000-01-01"
+      # click_button：指定されたボタンをクリック
       click_button "Sign up"
-      expect(current_path).to eq root_path # ルートページにリダイレクトされることを確認
+      # expect(page)：現在のページを表すオブジェクト
+      expect(current_path).to eq root_path
     end
   end
 
@@ -34,7 +36,6 @@ RSpec.describe "User Signup", type: :system do
       fill_in "user_phone_number", with: "1234567890"
       fill_in "user_birthdate", with: "2000-01-01"
       click_button "Sign up"
-      expect(page).to have_content "パスワード（確認用）とパスワードの入力が一致しません" # 実際に表示されるエラーメッセージを期待する
-    end
+      expect(page).to have_content "パスワード（確認用）とパスワードの入力が一致しません"
   end
 end
